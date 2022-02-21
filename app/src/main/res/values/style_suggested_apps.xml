@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="SlabLauncher.Today.SuggestionCard.Recycler" parent="SlabLauncher">
+    <style name="FatLauncher.Today.SuggestionCard.Recycler" parent="FatLauncher">
         <item name="android:layout_margin">@dimen/suggested_app_margin</item>
     </style>
 
-    <style name="SlabLauncher.Suggestions.Item.Card" parent="SlabLauncher">
+    <style name="FatLauncher.Suggestions.Item.Card" parent="FatLauncher">
         <item name="cardCornerRadius">@dimen/item_card_radius</item>
         <item name="android:layout_margin">@dimen/suggested_app_margin</item>
         <item name="cardElevation">@dimen/item_card_elevation</item>
     </style>
 
-    <style name="SlabLauncher.Suggestions.Item.Icon" parent="SlabLauncher">
+    <style name="FatLauncher.Suggestions.Item.Icon" parent="FatLauncher">
         <item name="android:padding">10dp</item>
         <item name="android:layout_width">@dimen/suggested_app_height</item>
         <item name="android:layout_height">@dimen/suggested_app_height</item>
     </style>
 
-    <style name="SlabLauncher.Suggestions.Item.Label" parent="SlabLauncher">
+    <style name="FatLauncher.Suggestions.Item.Label" parent="FatLauncher">
         <item name="android:textSize">12sp</item>
         <item name="android:layout_marginEnd">8dp</item>
         <item name="android:layout_marginStart">-2dp</item>
     </style>
 
-    <style name="SlabLauncher.Today.AllAppsButton" parent="SlabLauncher">
+    <style name="FatLauncher.Today.AllAppsButton" parent="FatLauncher">
         <item name="android:layout_margin">@dimen/suggested_app_margin</item>
 
         <item name="android:background">@drawable/round_bg</item>

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-        <io.posidon.android.slablauncher.util.view.SeeThroughView
+        <net.tglt.android.fatlauncher.util.view.SeeThroughView
             android:id="@+id/blur_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
@@ -21,7 +21,7 @@
         android:id="@+id/search_bar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <io.posidon.android.slablauncher.util.view.SeeThroughView
+        <net.tglt.android.fatlauncher.util.view.SeeThroughView
             android:id="@+id/search_bar_blur_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,13 +33,13 @@
             android:orientation="horizontal"
             android:layout_marginHorizontal="8dp">
             <ImageView
-                style="@style/SlabLauncher.SearchBar.Icon"
+                style="@style/FatLauncher.SearchBar.Icon"
                 android:id="@+id/search_bar_icon"
                 android:layout_width="@dimen/search_bar_height"
                 android:layout_height="@dimen/search_bar_height"
                 android:src="@drawable/ic_search"/>
             <EditText
-                style="@style/SlabLauncher.SearchBar.Text"
+                style="@style/FatLauncher.SearchBar.Text"
                 android:id="@+id/search_bar_text"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/search_bar_height"

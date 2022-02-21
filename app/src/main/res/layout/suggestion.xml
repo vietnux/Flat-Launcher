@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/card"
-    style="@style/SlabLauncher.TileArea.Suggestions.Item.Card">
-    <io.posidon.android.slablauncher.util.view.BackdropImageView
+    style="@style/FatLauncher.TileArea.Suggestions.Item.Card">
+    <net.tglt.android.fatlauncher.util.view.BackdropImageView
         android:id="@+id/background_image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/suggestion_height"
         android:scaleType="centerCrop"/>
     <ImageView
-        style="@style/SlabLauncher.TileArea.Suggestions.Item.Icon"
+        style="@style/FatLauncher.TileArea.Suggestions.Item.Icon"
         android:id="@+id/image"
         android:layout_gravity="center"/>
 </androidx.cardview.widget.CardView>

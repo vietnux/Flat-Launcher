@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    style="@style/SlabLauncher.SearchResult.Container">
+    style="@style/FatLauncher.SearchResult.Container">
     <ImageView
-        style="@style/SlabLauncher.SearchResult.Simple.Icon"
+        style="@style/FatLauncher.SearchResult.Simple.Icon"
         android:id="@+id/icon"/>
     <TextView
-        style="@style/SlabLauncher.SearchResult.Simple.Title"
+        style="@style/FatLauncher.SearchResult.Simple.Title"
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

@@ -2,5 +2,5 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    style="@style/SlabLauncher.Title"
+    style="@style/FatLauncher.Title"
     android:id="@+id/text"/>

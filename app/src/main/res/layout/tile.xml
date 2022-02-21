@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/card"
-    style="@style/SlabLauncher.Drawer.Item.Container">
-    <io.posidon.android.slablauncher.util.view.BackdropImageView
+    style="@style/FatLauncher.Drawer.Item.Container">
+    <net.tglt.android.fatlauncher.util.view.BackdropImageView
         android:id="@+id/background_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
-    <io.posidon.android.slablauncher.util.view.SeeThroughView
+    <net.tglt.android.fatlauncher.util.view.SeeThroughView
         android:id="@+id/blur_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.2"/>
-    <io.posidon.android.slablauncher.util.view.tile.TileContentView
+    <net.tglt.android.fatlauncher.util.view.tile.TileContentView
         android:id="@+id/tile_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

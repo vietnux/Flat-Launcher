@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/SlabLauncher.Drawer.Item.Container">
-    <io.posidon.android.slablauncher.util.view.HorizontalAspectRatioLayout
+    style="@style/FatLauncher.Drawer.Item.Container">
+    <net.tglt.android.fatlauncher.util.view.HorizontalAspectRatioLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/aspect"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="SlabLauncher.SearchBar.Text" parent="SlabLauncher">
+    <style name="FatLauncher.SearchBar.Text" parent="FatLauncher">
         <item name="android:background">@null</item>
         <item name="android:textSize">16sp</item>
         <item name="android:paddingEnd">12dp</item>
@@ -10,29 +10,29 @@
         <item name="android:clipToPadding">false</item>
     </style>
 
-    <style name="SlabLauncher.SearchBar.Icon" parent="SlabLauncher">
+    <style name="FatLauncher.SearchBar.Icon" parent="FatLauncher">
         <item name="android:padding">8dp</item>
     </style>
 
 
-    <style name="SlabLauncher.SearchResult.Container" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.Container" parent="FatLauncher">
         <item name="android:paddingHorizontal">6dp</item>
         <item name="android:paddingVertical">4dp</item>
     </style>
 
 
-    <style name="SlabLauncher.SearchResult.Simple.Icon" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.Simple.Icon" parent="FatLauncher">
         <item name="android:padding">8dp</item>
         <item name="android:layout_width">48dp</item>
         <item name="android:layout_height">48dp</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.Simple.Title" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.Simple.Title" parent="FatLauncher">
         <item name="android:paddingHorizontal">8dp</item>
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.Simple.Subtitle" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.Simple.Subtitle" parent="FatLauncher">
         <item name="android:paddingHorizontal">8dp</item>
         <item name="android:textSize">15sp</item>
         <item name="android:lines">1</item>
@@ -40,14 +40,14 @@
     </style>
 
 
-    <style name="SlabLauncher.SearchResult.InstantAnswer.Card" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.InstantAnswer.Card" parent="FatLauncher">
         <item name="cardCornerRadius">@dimen/item_card_radius</item>
 
         <item name="android:layout_margin">@dimen/item_card_margin</item>
         <item name="android:elevation">@dimen/item_card_elevation</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.InstantAnswer.Source" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.InstantAnswer.Source" parent="FatLauncher">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/feed_card_text_dark_description</item>
         <item name="android:maxLines">1</item>
@@ -56,26 +56,26 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.InstantAnswer.Title" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.InstantAnswer.Title" parent="FatLauncher">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/feed_card_text_dark_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingHorizontal">@dimen/feed_card_spacing</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.InstantAnswer.Description" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.InstantAnswer.Description" parent="FatLauncher">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/feed_card_text_dark_description</item>
         <item name="android:paddingHorizontal">@dimen/feed_card_spacing</item>
         <item name="android:paddingTop">@dimen/feed_card_spacing</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.InstantAnswer.Actions.Container" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.InstantAnswer.Actions.Container" parent="FatLauncher">
         <item name="android:layout_margin">6dp</item>
         <item name="cardCornerRadius">6dp</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.InstantAnswer.ActionText" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.InstantAnswer.ActionText" parent="FatLauncher">
         <item name="android:paddingVertical">6dp</item>
         <item name="android:paddingHorizontal">12dp</item>
         <item name="android:background">@drawable/ripple</item>
@@ -83,27 +83,27 @@
         <item name="android:textColor">@color/accent</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.InstantAnswer.Infobox.List" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.InstantAnswer.Infobox.List" parent="FatLauncher">
         <item name="android:paddingTop">@dimen/feed_card_spacing</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.InstantAnswer.Infobox.Separator" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.InstantAnswer.Infobox.Separator" parent="FatLauncher">
         <item name="android:layout_marginHorizontal">@dimen/feed_card_spacing</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.InstantAnswer.Infobox.Label" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.InstantAnswer.Infobox.Label" parent="FatLauncher">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/feed_card_text_dark_title</item>
         <item name="android:padding">@dimen/feed_card_spacing</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.InstantAnswer.Infobox.Value" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.InstantAnswer.Infobox.Value" parent="FatLauncher">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/feed_card_text_dark_title</item>
         <item name="android:padding">@dimen/feed_card_spacing</item>
     </style>
 
-    <style name="SlabLauncher.SearchResult.SimpleBox.Text" parent="SlabLauncher">
+    <style name="FatLauncher.SearchResult.SimpleBox.Text" parent="FatLauncher">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/feed_card_text_dark_title</item>
         <item name="android:textStyle">bold</item>

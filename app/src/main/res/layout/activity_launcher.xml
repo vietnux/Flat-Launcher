@@ -16,7 +16,7 @@
             android:gravity="top">
             <TextClock
                 android:id="@+id/date"
-                style="@style/SlabLauncher.Date"
+                style="@style/FatLauncher.Date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:format24Hour="d MMMM, cccc"

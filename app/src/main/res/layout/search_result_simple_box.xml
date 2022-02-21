@@ -4,14 +4,14 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/SlabLauncher.SearchResult.InstantAnswer.Card">
-    <io.posidon.android.slablauncher.util.view.SeeThroughView
+    style="@style/FatLauncher.SearchResult.InstantAnswer.Card">
+    <net.tglt.android.fatlauncher.util.view.SeeThroughView
         android:id="@+id/blur_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.18"/>
     <TextView
-        style="@style/SlabLauncher.SearchResult.SimpleBox.Text"
+        style="@style/FatLauncher.SearchResult.SimpleBox.Text"
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

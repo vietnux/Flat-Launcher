@@ -1,5 +1,5 @@
 <resources>
-    <string name="slab_launcher_crashed">Slab launcher crashed</string>
+    <string name="slab_launcher_crashed">Fat Launcher crashed</string>
     <string name="send_bug_report">Send bug report</string>
 
     <string name="read_more_at_source">More at %s</string>

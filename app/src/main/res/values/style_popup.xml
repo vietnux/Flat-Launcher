@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="SlabLauncher.ListPopup.Container" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Container" parent="FatLauncher">
         <item name="cardCornerRadius">@dimen/item_card_radius</item>
 
         <item name="android:layout_margin">@dimen/item_card_margin</item>
         <item name="android:elevation">@dimen/item_card_elevation</item>
     </style>
 
-    <style name="SlabLauncher.ListPopup.Recycler" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Recycler" parent="FatLauncher">
         <item name="android:paddingVertical">8dp</item>
     </style>
 
-    <style name="SlabLauncher.ListPopup.Item.Container" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Item.Container" parent="FatLauncher">
         <item name="android:minHeight">50dp</item>
         <item name="android:paddingEnd">8dp</item>
     </style>
 
-    <style name="SlabLauncher.ListPopup.Item.Icon" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Item.Icon" parent="FatLauncher">
         <item name="android:padding">12dp</item>
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:layout_marginEnd">-8dp</item>
     </style>
 
-    <style name="SlabLauncher.ListPopup.Item.Label" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Item.Label" parent="FatLauncher">
         <item name="android:textSize">18sp</item>
         <item name="android:layout_marginStart">2dp</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="SlabLauncher.ListPopup.Item.Description" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Item.Description" parent="FatLauncher">
         <item name="android:textSize">14sp</item>
         <item name="android:layout_marginStart">2dp</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="SlabLauncher.ListPopup.Item.Switch" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Item.Switch" parent="FatLauncher">
         <item name="android:layout_margin">8dp</item>
     </style>
 
-    <style name="SlabLauncher.ListPopup.Item.MultiSwitch" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Item.MultiSwitch" parent="FatLauncher">
         <item name="android:layout_margin">8dp</item>
     </style>
 
-    <style name="SlabLauncher.ListPopup.Title.Separator" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Title.Separator" parent="FatLauncher">
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
-    <style name="SlabLauncher.ListPopup.Title.Label" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Title.Label" parent="FatLauncher">
         <item name="android:textSize">24sp</item>
         <item name="android:paddingHorizontal">14dp</item>
         <item name="android:paddingVertical">8dp</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="SlabLauncher.ListPopup.Title.Description" parent="SlabLauncher">
+    <style name="FatLauncher.ListPopup.Title.Description" parent="FatLauncher">
         <item name="android:textSize">14sp</item>
         <item name="android:paddingHorizontal">14dp</item>
         <item name="android:paddingVertical">8dp</item>
@@ -62,18 +62,18 @@
     </style>
 
 
-    <style name="SlabLauncher.ItemPopup.Container" parent="SlabLauncher">
+    <style name="FatLauncher.ItemPopup.Container" parent="FatLauncher">
         <item name="cardCornerRadius">@dimen/item_card_radius</item>
         <item name="android:elevation">@dimen/item_card_elevation</item>
     </style>
 
-    <style name="SlabLauncher.ItemPopup.Shortcut.Icon" parent="SlabLauncher">
+    <style name="FatLauncher.ItemPopup.Shortcut.Icon" parent="FatLauncher">
         <item name="android:padding">10dp</item>
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>
     </style>
 
-    <style name="SlabLauncher.ItemPopup.Shortcut.Label" parent="SlabLauncher">
+    <style name="FatLauncher.ItemPopup.Shortcut.Label" parent="FatLauncher">
         <item name="android:textSize">14sp</item>
         <item name="android:layout_marginStart">2dp</item>
         <item name="android:layout_marginEnd">18dp</item>

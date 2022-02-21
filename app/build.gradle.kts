@@ -7,13 +7,13 @@ android {
     compileSdk = 31
 
     defaultConfig {
-        applicationId = "io.posidon.android.slablauncher"
+        applicationId = "net.tglt.android.fatlauncher"
         minSdk = 26
         targetSdk = 31
         versionCode = 1
-        versionName = "2021.0.0"
+        versionName = "1.0"
 
-        val plainName = "SlabLauncher"
+        val plainName = "FatLauncher"
         setProperty("archivesBaseName", "$plainName-v$versionName($versionCode)")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    style="@style/SlabLauncher.SearchResult.Container">
+    style="@style/FatLauncher.SearchResult.Container">
     <ImageView
-        style="@style/SlabLauncher.IconPackPicker.Item.Icon"
+        style="@style/FatLauncher.IconPackPicker.Item.Icon"
         android:id="@+id/icon"
         android:layout_width="64dp"
         android:layout_height="64dp"/>
     <TextView
-        style="@style/SlabLauncher.IconPackPicker.Item.Title"
+        style="@style/FatLauncher.IconPackPicker.Item.Title"
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

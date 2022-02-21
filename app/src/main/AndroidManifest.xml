@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="io.posidon.android.slablauncher">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="net.tglt.android.fatlauncher">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -18,6 +16,8 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
+
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -27,10 +27,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/SlabLauncher">
+        android:theme="@style/FatLauncher">
 
         <service
-            android:name="io.posidon.android.slablauncher.providers.notification.NotificationService"
+            android:name="net.tglt.android.fatlauncher.providers.notification.NotificationService"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
             android:exported="true">
             <intent-filter>
@@ -67,8 +67,7 @@
 
         <activity android:name=".ui.settings.iconPackPicker.IconPackPickerActivity"/>
 
-        <activity android:name=".util.StackTraceActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation"/>
+        <activity android:name=".util.StackTraceActivity" android:configChanges="keyboardHidden|screenSize|orientation"/>
 
         <activity-alias
             android:name=".ui.intro.IntroActivityAlias"

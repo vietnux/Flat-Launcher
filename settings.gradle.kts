@@ -1,2 +1,2 @@
-rootProject.name = "SlabLauncher"
+rootProject.name = "FatLauncher"
 include(":app")

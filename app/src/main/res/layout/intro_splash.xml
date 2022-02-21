@@ -6,13 +6,13 @@
     android:orientation="vertical"
     android:gravity="bottom">
     <ImageView
-        style="@style/SlabLauncher.Intro.Slash.Icon"
+        style="@style/FatLauncher.Intro.Slash.Icon"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@mipmap/ic_launcher"/>
     <TextView
         android:id="@+id/title"
-        style="@style/SlabLauncher.Intro.Slash.Message"
+        style="@style/FatLauncher.Intro.Slash.Message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/splash_message"/>

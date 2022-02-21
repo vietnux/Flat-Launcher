@@ -1,5 +1,5 @@
 <resources>
-    <style name="SlabLauncher.Title" parent="SlabLauncher">
+    <style name="FatLauncher.Title" parent="FatLauncher">
         <item name="android:layout_height">@dimen/today_title_container_height</item>
         <item name="android:gravity">start|bottom</item>
         <item name="android:includeFontPadding">false</item>
@@ -10,7 +10,7 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="SlabLauncher.Today.ItemCard" parent="SlabLauncher">
+    <style name="FatLauncher.Today.ItemCard" parent="FatLauncher">
         <item name="cardCornerRadius">@dimen/today_card_radius</item>
 
         <item name="android:layout_margin">@dimen/item_card_margin</item>
