@@ -1,58 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="FatLauncher.Drawer.Item.Container" parent="FatLauncher">
+    <style name="FatLauncher.TileArea.Item.Card" parent="FatLauncher">
         <item name="cardCornerRadius">@dimen/item_card_radius</item>
         <item name="android:layout_margin">@dimen/item_card_margin</item>
         <item name="cardElevation">@dimen/item_card_elevation</item>
     </style>
 
-    <style name="FatLauncher.Drawer.Item.Icon" parent="FatLauncher">
+    <style name="FatLauncher.TileArea.Item.Icon" parent="FatLauncher">
         <item name="android:padding">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:layout_width">56dp</item>
-        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
     </style>
 
-    <style name="FatLauncher.Drawer.Item.SmallIcon" parent="FatLauncher">
-        <item name="android:layout_width">24dp</item>
-        <item name="android:layout_height">24dp</item>
-        <item name="android:layout_marginEnd">6dp</item>
-    </style>
-
-    <style name="FatLauncher.Drawer.Item.LabelContainer" parent="FatLauncher">
-        <item name="android:padding">8dp</item>
-    </style>
-
-    <style name="FatLauncher.Drawer.Item.LabelText" parent="FatLauncher">
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="FatLauncher.Drawer.Item.Extra.Line.Title" parent="FatLauncher">
-        <item name="android:paddingStart">8dp</item>
-        <item name="android:paddingEnd">6dp</item>
-        <item name="android:textSize">14sp</item>
+    <style name="FatLauncher.TileArea.Item.Label" parent="FatLauncher">
+        <item name="android:textSize">16sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:layout_marginHorizontal">12dp</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
 
-    <style name="FatLauncher.Drawer.Item.Extra.Line.Description" parent="FatLauncher">
-        <item name="android:paddingStart">8dp</item>
-        <item name="android:paddingEnd">6dp</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
+    <style name="FatLauncher.TileArea.Item.Shortcut.List" parent="FatLauncher">
+        <item name="android:layout_margin">6dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="FatLauncher.TileArea.Item.Shortcut.Icon" parent="FatLauncher">
+        <item name="android:layout_margin">6dp</item>
+    </style>
+
+    <style name="FatLauncher.TileArea.Media.Button" parent="FatLauncher.TileArea.Item.Shortcut.Icon">
+        <item name="android:padding">8dp</item>
     </style>
 
     <style name="FatLauncher.TileArea.Suggestions.Item.Card" parent="FatLauncher">
-        <item name="cardCornerRadius">@dimen/item_card_radius</item>
-        <item name="android:layout_margin">@dimen/suggestion_margin</item>
+        <item name="cardCornerRadius">99dp</item>
+        <item name="android:layout_margin">@dimen/item_card_margin</item>
         <item name="cardElevation">@dimen/item_card_elevation</item>
-    </style>
-
-    <style name="FatLauncher.TileArea.Suggestions.Item.Icon" parent="FatLauncher">
-        <item name="android:padding">8dp</item>
-        <item name="android:layout_width">@dimen/suggestion_height</item>
-        <item name="android:layout_height">@dimen/suggestion_height</item>
     </style>
 </resources>

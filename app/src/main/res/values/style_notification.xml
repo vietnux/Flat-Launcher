@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="FatLauncher.Notification.Item.Container" parent="FatLauncher">
+    <style name="FatLauncher.Notification.Recycler" parent="FatLauncher">
+        <item name="android:layout_marginHorizontal">@dimen/item_card_margin</item>
+        <item name="android:layout_marginTop">@dimen/item_card_margin</item>
+    </style>
+
+    <style name="FatLauncher.Notification.Item.Card" parent="FatLauncher">
         <item name="cardCornerRadius">@dimen/item_card_radius</item>
         <item name="android:layout_margin">@dimen/item_card_margin</item>
-        <item name="android:elevation">@dimen/item_card_elevation</item>
+        <item name="cardElevation">@dimen/item_card_elevation</item>
+    </style>
+    <style name="FatLauncher.Notification.Item.Container" parent="FatLauncher">
+        <item name="android:layout_margin">@dimen/summary_card_notification_margin</item>
+    </style>
+    <style name="FatLauncher.Notification.Item.Source.Container" parent="FatLauncher">
+        <item name="android:layout_marginBottom">@dimen/summary_card_notification_spacing</item>
+    </style>
+    <style name="FatLauncher.Notification.Item.Source.Icon" parent="FatLauncher">
+        <item name="android:layout_width">16dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+    <style name="FatLauncher.Notification.Item.Source.Text" parent="FatLauncher">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
     <style name="FatLauncher.Notification.Item.Title" parent="FatLauncher">
-        <item name="android:layout_margin">@dimen/item_card_margin</item>
+        <item name="android:layout_marginRight">@dimen/summary_card_notification_spacing</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
+
     <style name="FatLauncher.Notification.Item.Text" parent="FatLauncher">
-        <item name="android:layout_margin">@dimen/item_card_margin</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:ellipsize">end</item>
-    </style>
-    <style name="FatLauncher.Notification.Item.Icon" parent="FatLauncher">
-        <item name="android:layout_width">20dp</item>
-        <item name="android:layout_height">20dp</item>
+        <item name="android:maxLines">4</item>
     </style>
 </resources>

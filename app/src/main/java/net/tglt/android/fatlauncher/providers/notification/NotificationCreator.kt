@@ -2,7 +2,6 @@ package net.tglt.android.fatlauncher.providers.notification
 
 import android.app.Notification
 import android.app.NotificationManager
-import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -11,15 +10,17 @@ import android.os.Bundle
 import android.service.notification.StatusBarNotification
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.net.toFile
 import net.tglt.android.fatlauncher.data.notification.NotificationData
+import net.tglt.android.fatlauncher.data.notification.NotificationGroupData
 import net.tglt.android.fatlauncher.data.notification.TempNotificationData
-import java.io.File
-import java.net.URI
 
 object NotificationCreator {
 
-    inline fun getTitle(extras: Bundle): CharSequence? {
+    private inline fun getSource(context: Context, n: StatusBarNotification): String {
+        return context.packageManager.getApplicationLabel(context.packageManager.getApplicationInfo(n.packageName, 0)).toString()
+    }
+
+    private inline fun getTitle(extras: Bundle): CharSequence? {
         val title = extras.getCharSequence(Notification.EXTRA_TITLE)
         if (title == null || title.toString().replace(" ", "").isEmpty()) {
             return null
@@ -27,7 +28,7 @@ object NotificationCreator {
         return title
     }
 
-    inline fun getText(extras: Bundle): CharSequence? {
+    private inline fun getText(extras: Bundle): CharSequence? {
         val messages = extras.getParcelableArray(Notification.EXTRA_MESSAGES)
         return if (messages == null) {
             extras.getCharSequence(Notification.EXTRA_BIG_TEXT)
@@ -41,7 +42,15 @@ object NotificationCreator {
         }
     }
 
-    inline fun getBigImage(context: Context, extras: Bundle): Drawable? {
+    private inline fun getSmallIcon(context: Context, n: StatusBarNotification): Drawable? {
+        return n.notification.smallIcon?.loadDrawable(context)
+    }
+
+    private inline fun getLargeIcon(context: Context, n: StatusBarNotification): Drawable? {
+        return n.notification.getLargeIcon()?.loadDrawable(context)
+    }
+
+    private inline fun getBigImage(context: Context, extras: Bundle): Drawable? {
         val b = extras[Notification.EXTRA_PICTURE] as Bitmap?
         if (b != null) {
             try {
@@ -56,7 +65,7 @@ object NotificationCreator {
         return null
     }
 
-    inline fun getBigImageFromMessages(context: Context, messagingStyle: NotificationCompat.MessagingStyle): Drawable? {
+    private inline fun getBigImageFromMessages(context: Context, messagingStyle: NotificationCompat.MessagingStyle): Drawable? {
         messagingStyle.messages.asReversed().forEach {
             it.dataUri?.let { uri ->
                 runCatching {
@@ -86,7 +95,7 @@ object NotificationCreator {
         }
     }
 
-    fun create(context: Context, notification: StatusBarNotification): TempNotificationData {
+    fun create(context: Context, notification: StatusBarNotification, service: NotificationService): TempNotificationData {
 
         val extras = notification.notification.extras
 
@@ -96,6 +105,10 @@ object NotificationCreator {
             title = text
             text = null
         }
+
+        val source = getSource(context, notification)
+        val icon = getSmallIcon(context, notification)!!
+        val color = notification.notification.color
 
         val channel = NotificationManagerCompat.from(context).getNotificationChannel(notification.notification.channelId)
         val importance = channel?.importance?.let { getImportance(it) } ?: 0
@@ -113,13 +126,35 @@ object NotificationCreator {
             }
         }
 
+        val key = notification.key
+        val autoCancel = notification.notification.flags and Notification.FLAG_AUTO_CANCEL != 0
+
         return TempNotificationData(
-            NotificationData(
+            group = NotificationGroupData(
+                source = source,
                 title = title?.toString() ?: "",
-                description = text?.toString(),
-                image = bigPic,
                 sourcePackageName = notification.packageName,
-            ),
+                notifications = listOf(NotificationData(
+                    icon = icon,
+                    description = text?.toString(),
+                    image = bigPic,
+                    color = color,
+                    open = {
+                        try {
+                            notification.notification.contentIntent?.send()
+                            if (autoCancel)
+                                service.cancelNotification(key)
+                        }
+                        catch (e: Exception) {
+                            service.cancelNotification(key)
+                            e.printStackTrace()
+                        }
+                    },
+                    cancel = {
+                        service.cancelNotification(key)
+                    }
+                ),
+            )),
             millis = notification.postTime,
             importance = importance.coerceAtLeast(0),
             isConversation = isConversation,

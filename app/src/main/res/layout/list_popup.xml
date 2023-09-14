@@ -5,11 +5,6 @@
     android:layout_height="wrap_content"
     android:id="@+id/card"
     style="@style/FatLauncher.ListPopup.Container">
-    <net.tglt.android.fatlauncher.util.view.SeeThroughView
-        android:id="@+id/blur_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.2"/>
     <androidx.recyclerview.widget.RecyclerView
         style="@style/FatLauncher.ListPopup.Recycler"
         android:id="@+id/recycler"

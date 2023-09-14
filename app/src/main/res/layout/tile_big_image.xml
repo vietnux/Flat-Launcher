@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/card"
+    style="@style/FatLauncher.TileArea.Item.Card">
+    <net.tglt.android.fatlauncher.ui.view.HorizontalAspectRatioLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <net.tglt.android.fatlauncher.ui.view.BackdropImageView
+            android:id="@+id/background_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </net.tglt.android.fatlauncher.ui.view.HorizontalAspectRatioLayout>
+</androidx.cardview.widget.CardView>

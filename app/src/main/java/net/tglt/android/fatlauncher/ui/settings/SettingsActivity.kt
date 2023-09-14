@@ -6,7 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import net.tglt.android.fatlauncher.providers.color.theme.ColorTheme
-import net.tglt.android.fatlauncher.ui.home.pinned.acrylicBlur
+import net.tglt.android.fatlauncher.ui.home.main.acrylicBlur
 import net.tglt.android.fatlauncher.util.drawable.FastColorDrawable
 import net.tglt.android.fatlauncher.util.storage.Settings
 

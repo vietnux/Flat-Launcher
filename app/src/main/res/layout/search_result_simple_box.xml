@@ -5,14 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/FatLauncher.SearchResult.InstantAnswer.Card">
-    <net.tglt.android.fatlauncher.util.view.SeeThroughView
+    <net.tglt.android.fatlauncher.ui.view.SeeThroughView
         android:id="@+id/blur_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.18"/>
-    <TextView
-        style="@style/FatLauncher.SearchResult.SimpleBox.Text"
-        android:id="@+id/text"
+    <RelativeLayout
+        style="@style/FatLauncher.SearchResult.InstantAnswer.Container"
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/FatLauncher.SearchResult.SimpleBox.Text"
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

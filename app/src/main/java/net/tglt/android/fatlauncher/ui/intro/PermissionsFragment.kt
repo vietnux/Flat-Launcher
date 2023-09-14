@@ -1,7 +1,6 @@
 package net.tglt.android.fatlauncher.ui.intro
 
 import android.Manifest
-import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -16,8 +15,6 @@ import net.tglt.android.fatlauncher.R
 import net.tglt.android.fatlauncher.providers.color.pallete.ColorPalette
 import net.tglt.android.fatlauncher.providers.color.theme.ColorTheme
 import net.tglt.android.fatlauncher.providers.suggestions.SuggestionsManager
-import net.tglt.android.fatlauncher.ui.home.MainActivity
-import net.tglt.android.fatlauncher.util.FakeLauncherActivity
 
 class PermissionsFragment : FragmentWithNext(R.layout.intro_permissions) {
 
@@ -106,23 +103,7 @@ class PermissionsFragment : FragmentWithNext(R.layout.intro_permissions) {
     }
 
     override fun next(activity: IntroActivity) {
-        //activity.setFragment(QuickSettingsFragment())
-        val home = ComponentName(requireContext(), MainActivity::class.java)
-        requireContext().packageManager.setComponentEnabledSetting(home, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
-        val intro = ComponentName(requireContext(), IntroActivity::class.java.name + "Alias")
-        requireContext().packageManager.setComponentEnabledSetting(intro, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
-        startActivity(Intent(requireContext(), MainActivity::class.java))
-        chooseLauncher()
-    }
-
-    private fun chooseLauncher() {
-        val componentName = ComponentName(requireContext(), FakeLauncherActivity::class.java)
-        requireContext().packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
-        val selector = Intent(Intent.ACTION_MAIN)
-        selector.addCategory(Intent.CATEGORY_HOME)
-        selector.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(selector)
-        requireContext().packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, PackageManager.DONT_KILL_APP)
+        activity.setFragment(TutorialFragment())
     }
 
     private fun requestStoragePermission(v: View) {

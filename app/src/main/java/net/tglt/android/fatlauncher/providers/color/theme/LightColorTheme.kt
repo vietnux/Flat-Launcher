@@ -1,22 +1,19 @@
 package net.tglt.android.fatlauncher.providers.color.theme
 
-import android.content.Context
 import androidx.core.graphics.ColorUtils
-import androidx.core.graphics.alpha
 import androidx.core.graphics.luminance
-import net.tglt.android.fatlauncher.R
 import net.tglt.android.fatlauncher.providers.color.pallete.ColorPalette
-import net.tglt.android.fatlauncher.providers.color.theme.ColorTheme.Companion.hueTintClosest
 
 class LightColorTheme(
     val palette: ColorPalette,
 ) : ColorTheme {
 
     override val accentColor = palette.primary
+    override val secondaryAccentColor = palette.secondary
 
-    override val uiBG = palette.neutralLight
-    override val uiTitle = palette.neutralVeryDark
-    override val uiDescription = palette.neutralDark
+    override val uiBG = palette.neutralDark
+    override val uiTitle = palette.neutralVeryLight
+    override val uiDescription = palette.neutralLight
     override val uiHint = palette.neutralMedium
 
     override val cardBG = palette.neutralVeryLight
@@ -24,12 +21,13 @@ class LightColorTheme(
     override val cardDescription = palette.neutralDark
     override val cardHint = palette.neutralMedium
 
-    override val buttonColor = palette.primary
+    override val separator = palette.neutralVeryDark and 0xffffff or 0x33000000
 
-    override val appCardBase = palette.neutralVeryLight
+    override val buttonColor = palette.neutralVeryLight
+    override val buttonColorCallToAction = palette.secondary
 
-    override val searchBarBG = palette.neutralLight
-    override val searchBarFG = palette.neutralDark
+    override val searchBarBG = cardBG
+    override val searchBarFG = cardTitle
 
     override fun adjustColorForContrast(base: Int, tint: Int): Int {
         return if (base.luminance > .6f) {
@@ -45,47 +43,5 @@ class LightColorTheme(
             lab[2] *= .75
             ColorUtils.LABToColor(lab[0], lab[1], lab[2])
         }
-    }
-
-    override fun tileColor(iconBackgroundColor: Int) = when {
-        iconBackgroundColor == 0 -> palette.neutralMedium
-        iconBackgroundColor.alpha == 0 -> ColorTheme.labClosestVibrant(iconBackgroundColor, arrayOf(
-            palette.neutralVeryDark,
-            palette.neutralDark,
-            palette.neutralMedium,
-            palette.neutralLight,
-            palette.neutralVeryLight,
-            palette.primary,
-            palette.secondary,
-            ColorPalette.wallColor,
-        ))
-        else -> hueTintClosest(iconBackgroundColor, arrayOf(
-            palette.neutralVeryDark,
-            palette.neutralDark,
-            palette.neutralMedium,
-            palette.neutralLight,
-            palette.neutralVeryLight,
-            palette.primary,
-            palette.secondary,
-            ColorPalette.wallColor,
-        ))
-    }
-
-    override fun textColorForBG(context: Context, background: Int): Int {
-        return if (background.luminance > .6f)
-            context.getColor(R.color.feed_card_text_dark_description)
-        else context.getColor(R.color.feed_card_text_light_description)
-    }
-
-    override fun titleColorForBG(context: Context, background: Int): Int {
-        return if (background.luminance > .6f)
-            context.getColor(R.color.feed_card_text_dark_title)
-        else context.getColor(R.color.feed_card_text_light_title)
-    }
-
-    override fun hintColorForBG(context: Context, background: Int): Int {
-        return if (background.luminance > .6f)
-            context.getColor(R.color.feed_card_text_dark_hint)
-        else context.getColor(R.color.feed_card_text_light_hint)
     }
 }

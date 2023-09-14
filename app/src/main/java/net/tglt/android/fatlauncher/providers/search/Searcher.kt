@@ -3,8 +3,9 @@ package net.tglt.android.fatlauncher.providers.search
 import android.app.Activity
 import android.content.Context
 import net.tglt.android.fatlauncher.LauncherContext
+import net.tglt.android.fatlauncher.data.items.App
+import net.tglt.android.fatlauncher.data.search.DebugResult
 import net.tglt.android.fatlauncher.data.search.SearchResult
-import net.tglt.android.fatlauncher.providers.app.AppCollection
 import java.util.*
 
 class Searcher(
@@ -19,6 +20,9 @@ class Searcher(
     fun query(query: SearchQuery) {
         val r = LinkedList<SearchResult>()
         providers.flatMapTo(r) { it.getResults(query) }
+        if (query.text == "!debug") {
+            r += DebugResult()
+        }
         r.sortWith { a, b ->
             b.relevance.compareTo(a.relevance)
         }
@@ -26,7 +30,7 @@ class Searcher(
         update(query, tr)
     }
 
-    fun query(query: CharSequence?) {
+    fun query(query: String?) {
         val q = query?.let(::SearchQuery) ?: SearchQuery.EMPTY
         if (query == null)
             update(q, emptyList())
@@ -39,9 +43,9 @@ class Searcher(
         }
     }
 
-    fun onAppsLoaded(context: Context, apps: AppCollection) {
+    fun onAppsLoaded(context: Context, list: List<App>) {
         providers.forEach {
-            it.onAppsLoaded(context, apps)
+            it.onAppsLoaded(context, list)
         }
     }
 

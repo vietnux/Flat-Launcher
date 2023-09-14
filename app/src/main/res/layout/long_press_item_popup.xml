@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/card"
-    style="@style/FatLauncher.ItemPopup.Container">
+    style="@style/FatLauncher.ItemPopup.Card">
     <LinearLayout
+        style="@style/FatLauncher.ItemPopup.Container"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
         <LinearLayout
             android:id="@+id/properties_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            style="@style/FatLauncher.ItemPopup.Shortcut.Container">
             <ImageView
                 style="@style/FatLauncher.ItemPopup.Shortcut.Icon"
                 android:id="@+id/properties_icon"
-                android:src="@drawable/ic_info"/>
+                android:src="@drawable/ic_info"
+                tools:ignore="ContentDescription"/>
             <TextView
                 style="@style/FatLauncher.ItemPopup.Shortcut.Label"
                 android:id="@+id/properties_text"
@@ -32,5 +33,23 @@
                 android:maxLines="1"
                 android:text="@string/properties"/>
         </LinearLayout>
+        <View
+            android:id="@+id/separator_static"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_static"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"/>
+        <View
+            android:id="@+id/separator_dynamic"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_dynamic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

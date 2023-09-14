@@ -1,5 +1,6 @@
 package net.tglt.android.fatlauncher.ui.home.sideList.viewHolders.search.instantAnswer
 
+import android.content.res.ColorStateList
 import android.view.View
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -11,30 +12,32 @@ import net.tglt.android.fatlauncher.data.search.InstantAnswerResult
 import net.tglt.android.fatlauncher.data.search.SearchResult
 import net.tglt.android.fatlauncher.providers.color.theme.ColorTheme
 import net.tglt.android.fatlauncher.ui.home.MainActivity
-import net.tglt.android.fatlauncher.ui.home.pinned.acrylicBlur
+import net.tglt.android.fatlauncher.ui.home.main.acrylicBlur
 import net.tglt.android.fatlauncher.ui.home.sideList.viewHolders.search.SearchViewHolder
-import net.tglt.android.fatlauncher.util.view.SeeThroughView
+import net.tglt.android.fatlauncher.ui.view.SeeThroughView
+import net.tglt.android.fatlauncher.util.drawable.setBackgroundColorFast
 
 class AnswerSearchViewHolder(
     itemView: View
 ) : SearchViewHolder(itemView) {
 
     val card = itemView.findViewById<CardView>(R.id.card)!!
-    val title = card.findViewById<TextView>(R.id.title)!!
-    val description = card.findViewById<TextView>(R.id.description)!!
+    val container = card.findViewById<View>(R.id.container)!!
+    val title = container.findViewById<TextView>(R.id.title)!!
+    val description = container.findViewById<TextView>(R.id.description)!!
 
-    val infoBoxAdapter = InfoBoxAdapter()
-    val infoBox = itemView.findViewById<RecyclerView>(R.id.info_box)!!.apply {
+    private val infoBoxAdapter = InfoBoxAdapter()
+    private val infoBox = itemView.findViewById<RecyclerView>(R.id.info_box)!!.apply {
         layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         adapter = infoBoxAdapter
     }
 
-    val actionsContainer = itemView.findViewById<CardView>(R.id.actions_container)!!
-    val sourceAction = actionsContainer.findViewById<TextView>(R.id.source)!!
-    val searchAction = actionsContainer.findViewById<TextView>(R.id.search)!!
-    val actionSeparator = actionsContainer.findViewById<View>(R.id.separator)!!
+    private val actionsContainer = itemView.findViewById<CardView>(R.id.actions_container)!!
+    private val sourceAction = actionsContainer.findViewById<TextView>(R.id.source)!!
+    private val searchAction = actionsContainer.findViewById<TextView>(R.id.search)!!
+    private val actionSeparator = actionsContainer.findViewById<View>(R.id.separator)!!
 
-    val blurBG = itemView.findViewById<SeeThroughView>(R.id.blur_bg)!!.apply {
+    private val blurBG = itemView.findViewById<SeeThroughView>(R.id.blur_bg)!!.apply {
         viewTreeObserver.addOnPreDrawListener {
             invalidate()
             true
@@ -52,6 +55,7 @@ class AnswerSearchViewHolder(
         activity.setOnPageScrollListener(AnswerSearchViewHolder::class.simpleName!!) { blurBG.offset = it }
 
         card.setCardBackgroundColor(ColorTheme.cardBG)
+        container.backgroundTintList = ColorStateList.valueOf(ColorTheme.separator)
         title.setTextColor(ColorTheme.cardTitle)
         description.setTextColor(ColorTheme.cardDescription)
 
@@ -59,13 +63,12 @@ class AnswerSearchViewHolder(
         description.text = result.description
         sourceAction.text = itemView.context.getString(R.string.read_more_at_source, result.sourceName)
 
-        val bg = ColorTheme.buttonColor
-        val fg = ColorTheme.titleColorForBG(itemView.context, bg)
-        val hint = ColorTheme.hintColorForBG(itemView.context, bg)
-        actionsContainer.setCardBackgroundColor(bg)
-        sourceAction.setTextColor(fg)
-        searchAction.setTextColor(fg)
-        actionSeparator.setBackgroundColor(hint)
+        actionsContainer.setCardBackgroundColor(ColorTheme.buttonColor)
+        searchAction.setTextColor(ColorTheme.titleColorForBG(ColorTheme.buttonColor))
+        actionSeparator.setBackgroundColorFast(ColorTheme.hintColorForBG(ColorTheme.buttonColor))
+
+        sourceAction.setTextColor(ColorTheme.titleColorForBG(ColorTheme.buttonColorCallToAction))
+        sourceAction.setBackgroundColorFast(ColorTheme.buttonColorCallToAction)
 
         sourceAction.setOnClickListener(result::open)
         searchAction.setOnClickListener(result::search)

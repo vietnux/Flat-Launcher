@@ -5,13 +5,13 @@
     android:layout_height="wrap_content"
     android:id="@+id/card"
     style="@style/FatLauncher.TileArea.Suggestions.Item.Card">
-    <net.tglt.android.fatlauncher.util.view.BackdropImageView
+    <net.tglt.android.fatlauncher.ui.view.BackdropImageView
         android:id="@+id/background_image"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/suggestion_height"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
-    <ImageView
-        style="@style/FatLauncher.TileArea.Suggestions.Item.Icon"
-        android:id="@+id/image"
-        android:layout_gravity="center"/>
+    <net.tglt.android.fatlauncher.ui.view.HorizontalAspectRatioLayout
+        android:id="@+id/aspect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </androidx.cardview.widget.CardView>

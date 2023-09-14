@@ -1,18 +1,18 @@
 package net.tglt.android.fatlauncher.ui.home.sideList.viewHolders.search
 
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import io.posidon.android.computable.compute
 import net.tglt.android.fatlauncher.R
 import net.tglt.android.fatlauncher.data.search.CompactResult
-import net.tglt.android.fatlauncher.data.search.ContactResult
 import net.tglt.android.fatlauncher.data.search.SearchResult
-import net.tglt.android.fatlauncher.providers.app.AppCollection.Companion.convertToGrayscale
 import net.tglt.android.fatlauncher.providers.color.theme.ColorTheme
 import net.tglt.android.fatlauncher.ui.home.MainActivity
-import net.tglt.android.fatlauncher.ui.home.pinned.viewHolders.hideIfNullOr
-import net.tglt.android.fatlauncher.util.storage.DoMonochromeIconsSetting.doMonochromeIcons
+import net.tglt.android.fatlauncher.ui.home.main.tile.viewHolders.hideIfNullOr
+import net.tglt.android.fatlauncher.util.storage.DoMonochromeIconsSetting.doMonochrome
+import net.tglt.android.fatlauncher.util.storage.Settings
 
 class CompactSearchViewHolder(
     itemView: View
@@ -28,14 +28,18 @@ class CompactSearchViewHolder(
     ) {
         result as CompactResult
         icon.setImageDrawable(null)
-        result.icon.compute { resultIcon ->
-            if (activity.settings.doMonochromeIcons && result !is ContactResult) {
-                resultIcon.convertToGrayscale()
-            } else resultIcon.colorFilter = null
+
+        activity.graphicsLoader.load(itemView.context, result.launcherItem) {
             icon.post {
-                icon.setImageDrawable(resultIcon)
+                icon.setImageDrawable(it.icon)
+                icon.colorFilter = if (activity.settings.doMonochrome) {
+                    ColorMatrixColorFilter(ColorMatrix().apply {
+                        setSaturation(0f)
+                    })
+                } else null
             }
         }
+
         text.text = result.title
         text.setTextColor(ColorTheme.uiTitle)
         subtitle.hideIfNullOr(result.subtitle) {
@@ -43,12 +47,10 @@ class CompactSearchViewHolder(
             setTextColor(ColorTheme.uiDescription)
         }
         itemView.setOnClickListener(result::open)
-        itemView.setOnLongClickListener(result.onLongPress?.let { { v -> it(v, activity) } })
+        itemView.setOnLongClickListener(result.onLongPress?.let { { v -> it(activity.graphicsLoader, v, activity) } })
     }
 
     override fun recycle(result: SearchResult) {
-        result as CompactResult
         icon.setImageDrawable(null)
-        result.icon.offload()
     }
 }

@@ -7,10 +7,15 @@ import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.FrameLayout
 import androidx.activity.addCallback
+import androidx.core.view.doOnLayout
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.posidon.android.conveniencelib.getNavigationBarHeight
 import net.tglt.android.fatlauncher.LauncherContext
 import net.tglt.android.fatlauncher.R
 import net.tglt.android.fatlauncher.data.search.SearchResult
@@ -19,7 +24,7 @@ import net.tglt.android.fatlauncher.ui.home.MainActivity
 import net.tglt.android.fatlauncher.ui.home.sideList.SideListAdapter.Companion.SCREEN_ALL_APPS
 import net.tglt.android.fatlauncher.ui.home.sideList.SideListAdapter.Companion.SCREEN_SEARCH
 import net.tglt.android.fatlauncher.ui.popup.appItem.ItemLongPress
-import posidon.android.conveniencelib.getStatusBarHeight
+import io.posidon.android.conveniencelib.getStatusBarHeight
 import java.util.*
 import kotlin.concurrent.thread
 import kotlin.math.abs
@@ -73,6 +78,11 @@ class SideListFragment : Fragment() {
                 searcher.query(it)
             }
         }
+        a.setOnGraphicsLoaderChangeListener(SideListFragment::class.simpleName!!) {
+            runOnUiThread {
+                adapter.notifyDataSetChanged()
+            }
+        }
         adapter = SideListAdapter(a, this@SideListFragment)
         recyclerView.run {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -83,25 +93,27 @@ class SideListFragment : Fragment() {
         setOnDragListener { _, event ->
             when (event.action) {
                 DragEvent.ACTION_DRAG_STARTED -> {
-                    ((event.localState as? Pair<*, *>?)?.first as? View)?.visibility = View.INVISIBLE
+                    (event.localState as? ItemLongPress.State?)?.view?.visibility = View.INVISIBLE
                     return@setOnDragListener true
                 }
                 DragEvent.ACTION_DRAG_LOCATION -> {
-                    val pair = (event.localState as? Pair<*, *>?)
-                    val v = pair?.first as? View
-                    val location = pair?.second as? IntArray
+                    val state = event.localState as? ItemLongPress.State?
+                    val v = state?.view
+                    val location = state?.location
                     if (v != null && location != null) {
                         val x = abs(event.x - location[0] - v.measuredWidth / 2f)
                         val y = abs(event.y - location[1] - v.measuredHeight / 2f)
                         if (x > v.width / 3.5f || y > v.height / 3.5f) {
                             ItemLongPress.currentPopup?.dismiss()
                             (requireActivity() as MainActivity).viewPager.currentItem = 0
+                            v.isVisible = true
+                            state.view = null
                         }
                     }
                 }
                 DragEvent.ACTION_DRAG_ENDED,
                 DragEvent.ACTION_DROP -> {
-                    ((event.localState as? Pair<*, *>?)?.first as? View)?.visibility = View.VISIBLE
+                    (event.localState as? ItemLongPress.State?)?.view?.isVisible = true
                     ItemLongPress.currentPopup?.isFocusable = true
                     ItemLongPress.currentPopup?.update()
                 }
@@ -133,6 +145,10 @@ class SideListFragment : Fragment() {
                 }
             }
         }
+        view.setOnApplyWindowInsetsListener { _, insets ->
+            configureWindow()
+            insets
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -142,12 +158,25 @@ class SideListFragment : Fragment() {
 
     private fun configureWindow() {
         val tileMargin = resources.getDimension(R.dimen.item_card_margin).toInt()
+        val b = (tileMargin + (requireActivity() as MainActivity).getSearchBarInset()) / 2
+        val bottomInset = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val i = requireActivity().window?.decorView?.rootWindowInsets
+            i?.getInsets(WindowInsets.Type.ime())?.bottom?.coerceAtLeast(
+                i.getInsets(WindowInsets.Type.systemBars()).bottom
+            ) ?: 0
+        } else requireActivity().getNavigationBarHeight()
         recyclerView.setPadding(
             tileMargin,
             tileMargin + requireContext().getStatusBarHeight(),
             tileMargin,
-            tileMargin,
+            b,
         )
+        recyclerView.layoutParams = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        ).apply {
+            bottomMargin = b + bottomInset
+        }
     }
 
     private var lastQuery = SearchQuery.EMPTY
@@ -156,7 +185,7 @@ class SideListFragment : Fragment() {
         adapter.updateSearchResults(query, list)
     }
 
-    fun setAppsList() {
+    private fun setAppsList() {
         adapter.updateApps(appList)
     }
 

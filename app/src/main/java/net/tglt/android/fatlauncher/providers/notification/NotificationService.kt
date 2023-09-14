@@ -14,20 +14,23 @@ import android.os.Build
 import android.os.UserHandle
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
+import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import net.tglt.android.fatlauncher.BuildConfig
 import net.tglt.android.fatlauncher.data.notification.MediaPlayerData
 import net.tglt.android.fatlauncher.data.notification.NotificationData
+import net.tglt.android.fatlauncher.data.notification.NotificationGroupData
 import net.tglt.android.fatlauncher.data.notification.TempNotificationData
 import net.tglt.android.fatlauncher.providers.media.MediaItemCreator
 import net.tglt.android.fatlauncher.util.StackTraceActivity
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 
 class NotificationService : NotificationListenerService() {
 
-    val componentName = ComponentName(BuildConfig.APPLICATION_ID, this::class.java.name)
+    private val componentName = ComponentName(BuildConfig.APPLICATION_ID, this::class.java.name)
 
     override fun onCreate() {
         StackTraceActivity.init(applicationContext)
@@ -62,49 +65,67 @@ class NotificationService : NotificationListenerService() {
     private fun loadNotifications(notifications: Array<StatusBarNotification>?) {
         thread(name = "NotificationService loading thread", isDaemon = true) {
             val tmpNotifications = LinkedList<TempNotificationData>()
-            var i = 0
             try {
                 if (notifications != null) {
-                    while (i < notifications.size) {
+                    for (i in notifications.indices) {
                         val notification = notifications[i]
                         if (
                             Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
                             && notification.notification.bubbleMetadata?.isNotificationSuppressed == true
-                        ) {
-                            i++
-                            continue
-                        }
+                        ) continue
+
                         val isSummary = notification.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0
-                        if (!isSummary) {
-                            val isMusic = notification.notification.extras
-                                .getCharSequence(Notification.EXTRA_TEMPLATE) == Notification.MediaStyle::class.java.name
-                            if (isMusic) {
-                                i++
-                                continue
-                            }
-                            tmpNotifications += NotificationCreator.create(
-                                applicationContext,
-                                notification,
-                            )
+
+                        if (isSummary)
+                            continue
+
+                        val isMusic = notification.notification.extras
+                            .getCharSequence(Notification.EXTRA_TEMPLATE) == Notification.MediaStyle::class.java.name
+
+                        if (isMusic)
+                            continue
+
+                        val isAnnoying = !notification.isClearable && run {
+                            val messagingStyle = NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(
+                                notification.notification)
+                            val isConversation = messagingStyle != null
+                            !isConversation
+                        } && run {
+                            val channel = NotificationManagerCompat.from(applicationContext).getNotificationChannel(notification.notification.channelId)
+                            (channel?.importance?.let { NotificationCreator.getImportance(it) } ?: 0) <= 0
                         }
-                        i++
+
+                        if (isAnnoying)
+                            continue
+
+                        tmpNotifications += NotificationCreator.create(
+                            applicationContext,
+                            notification,
+                            this,
+                        )
                     }
                 }
                 tmpNotifications.sortByDescending {
                     var r = it.millis
                     when (it.importance) {
-                        1 -> r += 3600L * 2
-                        2 -> r += 3600L * 7
+                        1 -> r += 3600_000L * 3
+                        2 -> r += 3600_000L * 7
+                        else -> if (it.group.sourcePackageName == "android")
+                            r -= 3600_000L * 1
                     }
                     if (it.isConversation) {
-                        r += 3600L * 4
+                        r += 3600_000L * 5
                     }
                     r
                 }
             }
             catch (e: Exception) { e.printStackTrace() }
+            val groups = tmpNotifications
+                .map { it.group }
+                .groupBy { Triple(it.title, it.source, it.sourcePackageName) }
+                .map { (k, v) -> NotificationGroupData(k.first, k.second, k.third, v.flatMap { it.notifications }) }
             val old = Companion.notifications
-            Companion.notifications = tmpNotifications.map { it.notificationData }.distinctBy { it.sourcePackageName }.toMutableList()
+            Companion.notifications = groups
             listeners.forEach { (_, x) -> x(old, Companion.notifications) }
         }
     }
@@ -138,7 +159,7 @@ class NotificationService : NotificationListenerService() {
             }
         }
 
-        var notifications: MutableList<NotificationData> = ArrayList()
+        var notifications: List<NotificationGroupData> = ArrayList()
             private set
 
         var mediaItem: MediaPlayerData? = null
@@ -156,9 +177,9 @@ class NotificationService : NotificationListenerService() {
             return controllers[0]
         }
 
-        private val listeners = HashMap<String, (old: List<NotificationData>, new: List<NotificationData>) -> Unit>()
+        private val listeners = HashMap<String, (old: List<NotificationGroupData>, new: List<NotificationGroupData>) -> Unit>()
 
-        fun setOnUpdate(key: String, onUpdate: (old: List<NotificationData>, new: List<NotificationData>) -> Unit) {
+        fun setOnUpdate(key: String, onUpdate: (old: List<NotificationGroupData>, new: List<NotificationGroupData>) -> Unit) {
             listeners[key] = onUpdate
         }
 

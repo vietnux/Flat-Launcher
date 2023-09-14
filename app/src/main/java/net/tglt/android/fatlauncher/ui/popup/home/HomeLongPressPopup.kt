@@ -12,26 +12,30 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.posidon.android.conveniencelib.Device
+import io.posidon.android.conveniencelib.units.dp
+import io.posidon.android.conveniencelib.units.toPixels
+import net.tglt.android.fatlauncher.BuildConfig
 import net.tglt.android.fatlauncher.R
 import net.tglt.android.fatlauncher.providers.color.pallete.ColorPalette
 import net.tglt.android.fatlauncher.providers.color.theme.ColorTheme
-import net.tglt.android.fatlauncher.ui.home.pinned.acrylicBlur
 import net.tglt.android.fatlauncher.ui.popup.PopupUtils
-import net.tglt.android.fatlauncher.ui.popup.listPopup.ListPopupAdapter
-import net.tglt.android.fatlauncher.ui.popup.listPopup.ListPopupItem
+import net.tglt.android.fatlauncher.ui.settings.SettingsAdapter
+import net.tglt.android.fatlauncher.ui.settings.SettingsItem
+import net.tglt.android.fatlauncher.ui.settings.flag.FlagSettingsActivity
 import net.tglt.android.fatlauncher.ui.settings.iconPackPicker.IconPackPickerActivity
+import net.tglt.android.fatlauncher.util.chooseDefaultLauncher
 import net.tglt.android.fatlauncher.util.storage.ColorExtractorSetting.colorTheme
 import net.tglt.android.fatlauncher.util.storage.ColorThemeSetting.colorThemeDayNight
 import net.tglt.android.fatlauncher.util.storage.ColorThemeSetting.setColorThemeDayNight
 import net.tglt.android.fatlauncher.util.storage.DoBlurSetting.doBlur
 import net.tglt.android.fatlauncher.util.storage.DoMonochromeIconsSetting.monochromatism
-import net.tglt.android.fatlauncher.util.storage.DoReshapeAdaptiveIconsSetting.adaptiveIconsReshaping
 import net.tglt.android.fatlauncher.util.storage.DoShowKeyboardOnAllAppsScreenOpenedSetting.doAutoKeyboardInAllApps
 import net.tglt.android.fatlauncher.util.storage.DoSuggestionStripSetting.doSuggestionStrip
+import net.tglt.android.fatlauncher.util.storage.GreetingSetting.getDefaultGreeting
+import net.tglt.android.fatlauncher.util.storage.GreetingSetting.setDefaultGreeting
 import net.tglt.android.fatlauncher.util.storage.Settings
-import net.tglt.android.fatlauncher.util.view.SeeThroughView
-import posidon.android.conveniencelib.Device
-import posidon.android.conveniencelib.dp
+import net.tglt.android.fatlauncher.util.storage.SuggestionColumnCount.suggestionColumnCount
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.thread
 import kotlin.concurrent.withLock
@@ -45,7 +49,10 @@ class HomeLongPressPopup(
 
     companion object {
 
-        fun calculateHeight(context: Context) = min(Device.screenHeight(context) / 2, context.dp(360).toInt())
+        fun calculateHeight(context: Context) = min(
+            Device.screenHeight(context) / 2,
+            360.dp.toPixels(context)
+        )
 
         fun show(
             parent: View,
@@ -54,9 +61,10 @@ class HomeLongPressPopup(
             settings: Settings,
             reloadColorPalette: () -> Unit,
             updateColorTheme: (ColorPalette) -> Unit,
-            reloadApps: () -> Unit,
+            reloadItemGraphics: () -> Unit,
             reloadBlur: (() -> Unit) -> Unit,
-            updateAtAGlanceLayout: () -> Unit,
+            updateLayout: () -> Unit,
+            updateGreeting: () -> Unit,
             popupWidth: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
             popupHeight: Int = calculateHeight(parent.context),
         ) {
@@ -69,14 +77,11 @@ class HomeLongPressPopup(
             )
             PopupUtils.setCurrent(window)
 
-            val blurBG = content.findViewById<SeeThroughView>(R.id.blur_bg)
-
             val cardView = content.findViewById<CardView>(R.id.card)
-            val popupAdapter = ListPopupAdapter()
+            val popupAdapter = SettingsAdapter()
             val updateLock = ReentrantLock()
 
             val popup = HomeLongPressPopup {
-                blurBG.drawable = acrylicBlur?.insaneBlurDrawable
                 cardView.setCardBackgroundColor(ColorTheme.cardBG)
                 popupAdapter.updateItems(
                     createMainAdapter(
@@ -93,15 +98,18 @@ class HomeLongPressPopup(
                             updateColorTheme(ColorPalette.getCurrent())
                             cardView.post { update() }
                         },
-                        reloadApps = reloadApps,
+                        reloadItemGraphics = reloadItemGraphics,
                         reloadBlur = {
                             reloadBlur {
                                 cardView.post { update() }
                             }
                         },
-                        updateAtAGlanceLayout = {
-                            parent.post(updateAtAGlanceLayout)
-                        }
+                        updateLayout = {
+                            parent.post(updateLayout)
+                        },
+                        updateGreeting = {
+                            parent.post(updateGreeting)
+                        },
                     )
                 )
             }
@@ -130,20 +138,27 @@ class HomeLongPressPopup(
             settings: Settings,
             reloadColorPalette: () -> Unit,
             updateColorTheme: () -> Unit,
-            reloadApps: () -> Unit,
+            reloadItemGraphics: () -> Unit,
             reloadBlur: () -> Unit,
-            updateAtAGlanceLayout: () -> Unit,
-        ): List<ListPopupItem> {
-            return listOf(
-                ListPopupItem(
+            updateLayout: () -> Unit,
+            updateGreeting: () -> Unit,
+        ): List<SettingsItem<*>> {
+            return listOfNotNull(
+                SettingsItem(
+                    context.getString(R.string.app_name),
+                    BuildConfig.VERSION_NAME,
+                    icon = context.getDrawable(R.mipmap.ic_launcher),
+                    isTitle = true,
+                ),
+                SettingsItem(context.getString(R.string.general), isTitle = true),
+                SettingsItem(
                     context.getString(R.string.color_theme_gen),
                     description = context.resources.getStringArray(R.array.color_theme_gens)[settings.colorTheme],
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_color_dropper),
                 ) {
                     AlertDialog.Builder(context)
-                        .setSingleChoiceItems(
+                        .setItems(
                             context.resources.getStringArray(R.array.color_theme_gens).copyOf(context.resources.getInteger(R.integer.color_theme_gens_available)),
-                            settings.colorTheme
                         ) { d, i ->
                             settings.edit(context) {
                                 colorTheme =
@@ -154,15 +169,14 @@ class HomeLongPressPopup(
                         }
                         .show()
                 },
-                ListPopupItem(
+                SettingsItem(
                     context.getString(R.string.color_theme_day_night),
                     description = context.resources.getStringArray(R.array.color_theme_day_night)[settings.colorThemeDayNight.ordinal],
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_lightness),
                 ) {
                     AlertDialog.Builder(context)
-                        .setSingleChoiceItems(
+                        .setItems(
                             R.array.color_theme_day_night,
-                            settings.colorThemeDayNight.ordinal
                         ) { d, i ->
                             settings.edit(context) {
                                 setColorThemeDayNight(context.resources.getStringArray(R.array.color_theme_day_night_data)[i].toInt())
@@ -172,77 +186,100 @@ class HomeLongPressPopup(
                         }
                         .show()
                 },
-                ListPopupItem(
+                SettingsItem(
+                    context.getString(R.string.greeting),
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_home),
+                    value = settings.getDefaultGreeting(context),
+                    onValueChange = { _, value ->
+                        settings.edit(context) {
+                            setDefaultGreeting(value)
+                            updateGreeting()
+                        }
+                    }
+                ),
+                SettingsItem(
                     context.getString(R.string.blur),
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_shapes),
                     value = settings.doBlur,
                     states = 2,
-                    onStateChange = { _, value ->
+                    onValueChange = { _, value ->
                         settings.edit(context) {
-                            doBlur = value == 1
+                            doBlur = value
                             reloadBlur()
                         }
                     }
                 ),
-                ListPopupItem(
+                SettingsItem(context.getString(R.string.layout), isTitle = true),
+                SettingsItem(
                     context.getString(R.string.show_app_suggestions),
-                    icon = ContextCompat.getDrawable(context, R.drawable.ic_home),
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_visible),
                     value = settings.doSuggestionStrip,
                     states = 2,
-                    onStateChange = { _, value ->
+                    onValueChange = { _, value ->
                         settings.edit(context) {
-                            doSuggestionStrip = value == 1
-                            updateAtAGlanceLayout()
+                            doSuggestionStrip = value
+                            updateLayout()
                         }
                     }
                 ),
-                ListPopupItem(context.getString(R.string.tiles), isTitle = true),
-                ListPopupItem(
+                SettingsItem(
+                    context.getString(R.string.suggestion_count),
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_slab),
+                    value = settings.suggestionColumnCount - 2,
+                    states = 5,
+                    onValueChange = { _, value ->
+                        settings.edit(context) {
+                            suggestionColumnCount = value + 2
+                            updateLayout()
+                        }
+                    }
+                ),
+                SettingsItem(context.getString(R.string.tiles), isTitle = true),
+                SettingsItem(
                     context.getString(R.string.icon_packs),
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_shapes),
                 ) {
                     context.startActivity(Intent(context, IconPackPickerActivity::class.java))
                 },
-                ListPopupItem(
-                    context.getString(R.string.reshape_adaptive_icons),
-                    description = context.getString(R.string.reshape_adaptive_icons_explanation),
-                    icon = ContextCompat.getDrawable(context, R.drawable.ic_shapes),
-                    value = settings.adaptiveIconsReshaping,
-                    states = 3,
-                    unsafeLevel = 2,
-                    onStateChange = { _, value ->
-                        settings.edit(context) {
-                            adaptiveIconsReshaping = value
-                            reloadApps()
-                        }
-                    }
-                ),
-                ListPopupItem(
+                SettingsItem(
                     context.getString(R.string.monochrome_icons),
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_color_dropper),
                     value = settings.monochromatism,
-                    states = 3,
-                    onStateChange = { _, value ->
+                    states = 2,
+                    onValueChange = { _, value ->
                         settings.edit(context) {
                             monochromatism = value
-                            reloadApps()
+                            reloadItemGraphics()
                         }
                     }
                 ),
-                ListPopupItem(context.getString(R.string.all_apps), isTitle = true),
-                ListPopupItem(
+                SettingsItem(context.getString(R.string.dash), isTitle = true),
+                SettingsItem(
+                    context.getString(R.string.flag),
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_slab),
+                ) {
+                    context.startActivity(Intent(context, FlagSettingsActivity::class.java))
+                },
+                SettingsItem(context.getString(R.string.all_apps), isTitle = true),
+                SettingsItem(
                     context.getString(R.string.auto_show_keyboard),
                     description = context.getString(R.string.auto_show_keyboard_explanation),
                     icon = ContextCompat.getDrawable(context, R.drawable.ic_keyboard),
                     value = settings.doAutoKeyboardInAllApps,
                     states = 2,
-                    onStateChange = { _, value ->
+                    onValueChange = { _, value ->
                         settings.edit(context) {
-                            doAutoKeyboardInAllApps = value == 1
-                            reloadApps()
+                            doAutoKeyboardInAllApps = value
                         }
                     }
                 ),
+                SettingsItem(context.getString(R.string.other), isTitle = true),
+                SettingsItem(
+                    context.getString(R.string.choose_default_launcher),
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_home),
+                ) {
+                    context.chooseDefaultLauncher()
+                }
             )
         }
     }

@@ -15,7 +15,7 @@ import java.util.*
 
 class IntroActivity : FragmentActivity() {
 
-    val stack = LinkedList<FragmentWithNext>().apply {
+    private val stack = LinkedList<FragmentWithNext>().apply {
         push(SplashFragment())
     }
 
@@ -73,8 +73,8 @@ class IntroActivity : FragmentActivity() {
     fun updateColorTheme(colorPalette: ColorPalette) {
         ColorTheme.updateColorTheme(DarkColorTheme(colorPalette))
         findViewById<ImageView>(R.id.button_next)!!.run {
-            backgroundTintList = ColorStateList.valueOf(ColorTheme.buttonColor)
-            imageTintList = ColorStateList.valueOf(ColorTheme.titleColorForBG(this@IntroActivity, ColorTheme.buttonColor))
+            backgroundTintList = ColorStateList.valueOf(ColorTheme.buttonColorCallToAction)
+            imageTintList = ColorStateList.valueOf(ColorTheme.titleColorForBG(ColorTheme.buttonColorCallToAction))
         }
         window.decorView.setBackgroundColor(ColorTheme.uiBG)
     }

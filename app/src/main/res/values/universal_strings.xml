@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Fat Launcher</string>
+    <string name="app_name">Fast Launcher</string>
 
     <string name="dev_email">it@posidon.io</string>
-    <string name="crash_email_subject">Fat Launcher: crash log</string>
+    <string name="crash_email_subject">Fast Launcher: crash log</string>
 </resources>

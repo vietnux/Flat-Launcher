@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.ItemTouchHelper.DOWN
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import io.posidon.android.launcherutils.IconTheming
+import io.posidon.android.launcherutil.IconTheming
 import net.tglt.android.fatlauncher.R
 import net.tglt.android.fatlauncher.ui.settings.SettingsActivity
 import net.tglt.android.fatlauncher.ui.settings.iconPackPicker.viewHolders.IconPackViewHolder
-import posidon.android.conveniencelib.getNavigationBarHeight
-import posidon.android.conveniencelib.getStatusBarHeight
+import io.posidon.android.conveniencelib.getNavigationBarHeight
+import io.posidon.android.conveniencelib.getStatusBarHeight
 import java.util.*
 
 class IconPackPickerActivity : SettingsActivity() {
@@ -82,9 +82,7 @@ class IconPackPickerActivity : SettingsActivity() {
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
-        ): Boolean {
-            return adapter.onItemMove(recyclerView.context, viewHolder, target)
-        }
+        ) = adapter.onItemMove(recyclerView.context, viewHolder, target)
     }
 
     class IconPack(

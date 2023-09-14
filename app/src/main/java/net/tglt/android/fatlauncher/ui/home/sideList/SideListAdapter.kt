@@ -10,6 +10,7 @@ import net.tglt.android.fatlauncher.data.search.*
 import net.tglt.android.fatlauncher.providers.search.SearchQuery
 import net.tglt.android.fatlauncher.ui.home.MainActivity
 import net.tglt.android.fatlauncher.ui.home.sideList.viewHolders.TitleViewHolder
+import net.tglt.android.fatlauncher.ui.home.sideList.viewHolders.search.ColorPaletteSearchViewHolder
 import net.tglt.android.fatlauncher.ui.home.sideList.viewHolders.search.CompactSearchViewHolder
 import net.tglt.android.fatlauncher.ui.home.sideList.viewHolders.search.SearchViewHolder
 import net.tglt.android.fatlauncher.ui.home.sideList.viewHolders.search.SimpleBoxSearchViewHolder
@@ -31,7 +32,7 @@ class SideListAdapter(
             }
         }
 
-    inline fun setTitle(@StringRes resId: Int) { title = if (resId == 0) null else activity.getString(resId) }
+    private inline fun setTitle(@StringRes resId: Int) { title = if (resId == 0) null else activity.getString(resId) }
 
     private var items = emptyList<Any>()
 
@@ -43,6 +44,7 @@ class SideListAdapter(
             is CompactResult -> RESULT_COMPACT
             is InstantAnswerResult -> RESULT_ANSWER
             is MathResult -> RESULT_SIMPLE_BOX
+            is DebugResult -> DEBUG
             else -> throw Exception("Invalid search result")
         }
     }
@@ -53,6 +55,7 @@ class SideListAdapter(
             RESULT_COMPACT -> CompactSearchViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.search_result_compact, parent, false))
             RESULT_ANSWER -> AnswerSearchViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.search_result_answer, parent, false))
             RESULT_SIMPLE_BOX -> SimpleBoxSearchViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.search_result_simple_box, parent, false))
+            DEBUG -> ColorPaletteSearchViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.search_result_debug, parent, false))
             else -> throw Exception("Invalid view type")
         }
     }
@@ -83,7 +86,7 @@ class SideListAdapter(
 
     fun updateSearchResults(query: SearchQuery, results: List<SearchResult>) {
         currentScreen = SCREEN_SEARCH
-        this.title = activity.getString(R.string.results_for_x, query.text.toString())
+        this.title = activity.getString(R.string.results_for_x, query.text)
         this.items = results
         notifyDataSetChanged()
     }
@@ -103,6 +106,7 @@ class SideListAdapter(
         const val RESULT_ANSWER = 0
         const val RESULT_COMPACT = 1
         const val RESULT_SIMPLE_BOX = 2
+        const val DEBUG = 3
 
         const val SCREEN_SEARCH = 1
         const val SCREEN_ALL_APPS = 2

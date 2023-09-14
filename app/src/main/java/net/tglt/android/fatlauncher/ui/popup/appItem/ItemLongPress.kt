@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Context
 import android.content.pm.LauncherApps
-import android.content.pm.ShortcutInfo
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
@@ -13,32 +12,56 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.graphics.ColorUtils
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import net.tglt.android.fatlauncher.R
 import net.tglt.android.fatlauncher.data.items.App
 import net.tglt.android.fatlauncher.data.items.LauncherItem
 import net.tglt.android.fatlauncher.data.items.showProperties
+import net.tglt.android.fatlauncher.providers.color.theme.ColorTheme
+import net.tglt.android.fatlauncher.providers.item.GraphicsLoader
 import net.tglt.android.fatlauncher.ui.popup.PopupUtils
-import posidon.android.conveniencelib.vibrate
+import net.tglt.android.fatlauncher.util.drawable.setBackgroundColorFast
 
 object ItemLongPress {
 
     var currentPopup: PopupWindow? = null
-    fun makePopupWindow(context: Context, item: LauncherItem, backgroundColor: Int, textColor: Int, extraPopupWindow: PopupWindow?, onInfo: (View) -> Unit): PopupWindow {
+    private fun makePopupWindow(context: Context, item: LauncherItem, backgroundColor: Int, textColor: Int, graphicsLoader: GraphicsLoader, onInfo: (View) -> Unit): PopupWindow {
         val content = LayoutInflater.from(context).inflate(R.layout.long_press_item_popup, null)
         if (item is App) {
-            val shortcuts = item.getStaticShortcuts(context.getSystemService(LauncherApps::class.java))
-            if (shortcuts.isNotEmpty()) {
-                val recyclerView = content.findViewById<RecyclerView>(R.id.recycler)
-                recyclerView.isNestedScrollingEnabled = false
-                recyclerView.layoutManager = LinearLayoutManager(context)
-                recyclerView.adapter = ShortcutAdapter(shortcuts, textColor)
+            val launcherApps = context.getSystemService(LauncherApps::class.java)
+            val shortcuts = item.getStaticShortcuts(launcherApps)
+            val dynamicShortcuts = (item as? App)?.getDynamicShortcuts(launcherApps)?.let {
+                it.subList(0, it.size.coerceAtMost(6 - shortcuts.size).coerceAtLeast(0))
+            }
+
+            val recyclerViewStatic = content.findViewById<RecyclerView>(R.id.recycler_static)
+            val separatorStatic = content.findViewById<View>(R.id.separator_static)
+            val recyclerViewDynamic = content.findViewById<RecyclerView>(R.id.recycler_dynamic)
+            val separatorDynamic = content.findViewById<View>(R.id.separator_dynamic)
+            if (shortcuts.isEmpty()) {
+                separatorStatic.isVisible = false
+                recyclerViewStatic.isVisible = false
+            } else {
+                separatorStatic.setBackgroundColorFast(ColorTheme.separator)
+                recyclerViewStatic.isNestedScrollingEnabled = false
+                recyclerViewStatic.layoutManager = LinearLayoutManager(context)
+                recyclerViewStatic.adapter = LongPressShortcutAdapter(shortcuts, textColor, graphicsLoader)
+            }
+            if (dynamicShortcuts.isNullOrEmpty()) {
+                separatorDynamic.isVisible = false
+                recyclerViewDynamic.isVisible = false
+            } else {
+                separatorDynamic.setBackgroundColorFast(ColorTheme.separator)
+                recyclerViewDynamic.isNestedScrollingEnabled = false
+                recyclerViewDynamic.layoutManager = LinearLayoutManager(context)
+                recyclerViewDynamic.adapter = LongPressShortcutAdapter(dynamicShortcuts, textColor, graphicsLoader)
             }
         }
         val window = PopupWindow(content, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
         window.setOnDismissListener {
-            extraPopupWindow?.dismiss()
             currentPopup = null
         }
 
@@ -47,9 +70,10 @@ object ItemLongPress {
         val propertiesIcon = propertiesButton.findViewById<ImageView>(R.id.properties_icon)
 
         propertiesText.setTextColor(textColor)
-        propertiesIcon.imageTintList = ColorStateList.valueOf(textColor)
+        propertiesIcon.imageTintList = ColorStateList.valueOf(ColorUtils.blendARGB(textColor, ColorTheme.accentColor, 0.5f))
 
         content.findViewById<CardView>(R.id.card).setCardBackgroundColor(backgroundColor)
+        content.findViewById<View>(R.id.container).backgroundTintList = ColorStateList.valueOf(ColorTheme.separator)
 
         propertiesButton.setOnClickListener {
             window.dismiss()
@@ -59,22 +83,16 @@ object ItemLongPress {
         return window
     }
 
-    fun makeExtraPopupWindow(context: Context, shortcuts: List<ShortcutInfo>, backgroundColor: Int, textColor: Int): PopupWindow {
-        val content = LayoutInflater.from(context).inflate(R.layout.long_press_item_popup_extra, null)
-        if (shortcuts.isNotEmpty()) {
-            val recyclerView = content.findViewById<RecyclerView>(R.id.recycler)
-            recyclerView.isNestedScrollingEnabled = false
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = ShortcutAdapter(shortcuts, textColor)
-        }
-        val window = PopupWindow(content, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
-
-        content.findViewById<CardView>(R.id.card).setCardBackgroundColor(backgroundColor)
-
-        window.isFocusable = false
-
-        return window
+    private fun dismissCurrent() {
+        val c = currentPopup
+        currentPopup = null
+        c?.dismiss()
     }
+
+    class State(
+        var view: View?,
+        val location: IntArray,
+    )
 
     fun onItemLongPress(
         view: View,
@@ -82,38 +100,22 @@ object ItemLongPress {
         textColor: Int,
         item: LauncherItem,
         navbarHeight: Int,
+        graphicsLoader: GraphicsLoader,
     ) {
-        run {
-            val c = currentPopup
-            currentPopup = null
-            c?.dismiss()
-        }
+        dismissCurrent()
         val context = view.context
-        context.vibrate(14)
         val (x, y, gravity) = PopupUtils.getPopupLocationFromView(view, navbarHeight)
-        val dynamicShortcuts = (item as? App)?.getDynamicShortcuts(context.getSystemService(LauncherApps::class.java))?.let {
-            it.subList(0, it.size.coerceAtMost(5))
-        }
-        val hasDynamicShortcuts = !dynamicShortcuts.isNullOrEmpty()
-        val extraPopupWindow = if (hasDynamicShortcuts) makeExtraPopupWindow(context, dynamicShortcuts!!, backgroundColor, textColor) else null
-        val popupWindow = makePopupWindow(context, item, backgroundColor, textColor, extraPopupWindow) {
-            item.showProperties(view, backgroundColor, textColor)
-        }
-        popupWindow.isFocusable = false
+        val popupWindow = makePopupWindow(
+            context,
+            item,
+            backgroundColor,
+            textColor,
+            graphicsLoader,
+            item::showProperties,
+        )
         popupWindow.showAtLocation(view, gravity, x, y + (view.resources.getDimension(R.dimen.item_card_margin) * 2).toInt())
 
         currentPopup = popupWindow
-
-        if (hasDynamicShortcuts) popupWindow.contentView.post {
-            if (currentPopup?.isShowing == true) {
-                extraPopupWindow!!.showAtLocation(
-                    view,
-                    gravity,
-                    x,
-                    y + popupWindow.contentView.height + (view.resources.getDimension(R.dimen.item_card_margin) * 4).toInt()
-                )
-            }
-        }
 
         val shadow = View.DragShadowBuilder(view)
         val clipData = ClipData(
@@ -123,13 +125,14 @@ object ItemLongPress {
 
         val location = IntArray(2)
         view.getLocationOnScreen(location)
-        view.startDragAndDrop(clipData, shadow, view to location, View.DRAG_FLAG_OPAQUE or View.DRAG_FLAG_GLOBAL)
+        view.startDragAndDrop(clipData, shadow, State(view, location), View.DRAG_FLAG_OPAQUE or View.DRAG_FLAG_GLOBAL)
     }
 
     fun onItemLongPress(
         view: View,
         item: LauncherItem,
     ) {
+        dismissCurrent()
         val shadow = View.DragShadowBuilder(view)
         val clipData = ClipData(
             item.label,
@@ -138,6 +141,6 @@ object ItemLongPress {
 
         val location = IntArray(2)
         view.getLocationOnScreen(location)
-        view.startDragAndDrop(clipData, shadow, view to location, View.DRAG_FLAG_OPAQUE or View.DRAG_FLAG_GLOBAL)
+        view.startDragAndDrop(clipData, shadow, State(view, location), View.DRAG_FLAG_OPAQUE or View.DRAG_FLAG_GLOBAL)
     }
 }

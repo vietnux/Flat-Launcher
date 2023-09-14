@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="FatLauncher.Title" parent="FatLauncher">
+        <item name="android:layout_height">@dimen/search_title_container_height</item>
+        <item name="android:gravity">start|bottom</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:paddingHorizontal">18dp</item>
+        <item name="android:paddingBottom">18dp</item>
+        <item name="android:textSize">42sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontWeight">700</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="FatLauncher.SearchBar.Card" parent="FatLauncher">
+        <item name="cardCornerRadius">@dimen/search_bar_radius</item>
+        <item name="android:layout_marginVertical">@dimen/item_card_margin</item>
+        <item name="android:layout_marginHorizontal">9.9dp</item>
+        <item name="cardElevation">@dimen/item_card_elevation</item>
+    </style>
+
     <style name="FatLauncher.SearchBar.Text" parent="FatLauncher">
         <item name="android:background">@null</item>
         <item name="android:textSize">16sp</item>
@@ -14,10 +34,16 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <style name="FatLauncher.SearchBar.Statement" parent="FatLauncher">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
 
     <style name="FatLauncher.SearchResult.Container" parent="FatLauncher">
-        <item name="android:paddingHorizontal">6dp</item>
-        <item name="android:paddingVertical">4dp</item>
+        <item name="android:layout_marginHorizontal">6dp</item>
+        <item name="android:layout_marginVertical">4dp</item>
     </style>
 
 
@@ -41,31 +67,24 @@
 
 
     <style name="FatLauncher.SearchResult.InstantAnswer.Card" parent="FatLauncher">
-        <item name="cardCornerRadius">@dimen/item_card_radius</item>
+        <item name="cardCornerRadius">@dimen/large_card_radius</item>
 
         <item name="android:layout_margin">@dimen/item_card_margin</item>
         <item name="android:elevation">@dimen/item_card_elevation</item>
     </style>
 
-    <style name="FatLauncher.SearchResult.InstantAnswer.Source" parent="FatLauncher">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/feed_card_text_dark_description</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:includeFontPadding">false</item>
+    <style name="FatLauncher.SearchResult.InstantAnswer.Container" parent="FatLauncher">
+        <item name="android:padding">@dimen/feed_card_padding</item>
     </style>
 
     <style name="FatLauncher.SearchResult.InstantAnswer.Title" parent="FatLauncher">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/feed_card_text_dark_title</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingHorizontal">@dimen/feed_card_spacing</item>
     </style>
 
     <style name="FatLauncher.SearchResult.InstantAnswer.Description" parent="FatLauncher">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/feed_card_text_dark_description</item>
         <item name="android:paddingHorizontal">@dimen/feed_card_spacing</item>
         <item name="android:paddingTop">@dimen/feed_card_spacing</item>
     </style>
@@ -92,23 +111,20 @@
     </style>
 
     <style name="FatLauncher.SearchResult.InstantAnswer.Infobox.Label" parent="FatLauncher">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/feed_card_text_dark_title</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:padding">@dimen/feed_card_spacing</item>
     </style>
 
     <style name="FatLauncher.SearchResult.InstantAnswer.Infobox.Value" parent="FatLauncher">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/feed_card_text_dark_title</item>
         <item name="android:padding">@dimen/feed_card_spacing</item>
     </style>
 
     <style name="FatLauncher.SearchResult.SimpleBox.Text" parent="FatLauncher">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/feed_card_text_dark_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingHorizontal">@dimen/feed_card_spacing</item>
         <item name="android:paddingVertical">@dimen/feed_card_spacing</item>
-        <item name="android:layout_margin">@dimen/feed_card_padding</item>
     </style>
 </resources>

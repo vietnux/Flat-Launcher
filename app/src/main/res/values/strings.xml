@@ -21,15 +21,17 @@
     <string name="all_apps">All apps</string>
 
     <!-- settings start -->
+        <string name="general">General</string>
+
         <string name="color_theme_gen">Color extraction</string>
         <string name="color_theme_day_night">Theme</string>
+        <string name="greeting">Greeting</string>
 
-        <string name="scrollbar_controller">App sorting</string>
+        <string name="layout">Layout</string>
+        <string name="show_app_suggestions">Show suggestions strip</string>
+        <string name="suggestion_count">Suggestion count</string>
 
         <string name="tiles">Tiles</string>
-
-        <string name="reshape_adaptive_icons">Adaptive icon reshaping</string>
-        <string name="reshape_adaptive_icons_explanation">Uses icon backgrounds to cover app cards</string>
 
         <string name="monochrome_icons">Monochromatism</string>
 
@@ -41,7 +43,18 @@
         <string name="available">Available</string>
         <string name="system">System</string>
         <string name="blur">Translucency</string>
-        <string name="show_app_suggestions">Show app suggestions</string>
+
+        <string name="dash">Dash</string>
+        <string name="flag">Flag</string>
+
+        <string name="enable">Enable</string>
+        <string name="height">Height</string>
+        <string name="apply_from_preset">Apply from preset</string>
+        <string name="add_color">Add color</string>
+
+        <string name="other">Other</string>
+
+        <string name="choose_default_launcher">Choose default launcher</string>
     <!-- settings end -->
 
     <!-- first time screen start -->
@@ -63,5 +76,23 @@
             <string name="permission_usage_access">Usage access</string>
             <string name="permission_usage_access_explanation">To improve app suggestions</string>
         <!-- permissions end -->
+
+        <!-- how to use start -->
+            <string name="how_to_use">How to use</string>
+
+            <string name="pin_apps_to_home_screen">Pin apps to home screen</string>
+            <string name="pin_apps_to_home_screen_explanation">Just go to the app list/search screen (on the right of the main screen), find the app you want, long-press it, and drag it to the bottom of the main screen</string>
+
+            <string name="launcher_settings">Launcher settings</string>
+            <string name="launcher_settings_explanation">Long-press on the dash (the card at the top of the main screen)</string>
+        <!-- how to use end -->
     <!-- first time screen end -->
+
+    <!-- statements start -->
+        <string name="good_morning">Good morning!</string>
+        <string name="good_night">Good night!</string>
+        <string name="new_year">Happy new year!</string>
+        <string name="default_greeting">Do your best</string>
+        <string name="next_alarm_at_x">Next alarm at %s, in %dh</string>
+    <!-- statements end -->
 </resources>

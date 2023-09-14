@@ -1,5 +1,7 @@
 package net.tglt.android.fatlauncher.util.storage
 
+import android.content.Context
+import net.tglt.android.fatlauncher.R
 import net.tglt.android.fatlauncher.providers.color.ColorThemeOptions
 
 object ColorExtractorSetting {
@@ -35,37 +37,24 @@ object ColorThemeSetting {
     const val DEFAULT = 0
 }
 
-object DoReshapeAdaptiveIconsSetting {
+object SuggestionColumnCount {
 
-    inline val Settings.forceReshapeAdaptiveIcons: Boolean
-        get() = adaptiveIconsReshaping == FORCE
-
-    inline val Settings.doReshapeAdaptiveIcons: Boolean
-        get() = adaptiveIconsReshaping != NONE
-
-    val Settings.adaptiveIconsReshaping: Int
+    val Settings.suggestionColumnCount: Int
         get() = get(KEY, DEFAULT)
 
-    var Settings.SettingsEditor.adaptiveIconsReshaping: Int
+    var Settings.SettingsEditor.suggestionColumnCount: Int
         get() = settings[KEY, DEFAULT]
         set(value) = KEY set value
 
-    private const val KEY = "icons:reshape_adaptive"
+    private const val KEY = "suggestions:columns"
 
-    const val NONE = 0
-    const val SAFE = 1
-    const val FORCE = 2
-
-    const val DEFAULT = NONE
+    const val DEFAULT = 5
 }
 
 object DoMonochromeIconsSetting {
 
-    val Settings.doMonochromeTileBackground: Boolean
-        get() = monochromatism != NONE
-
-    inline val Settings.doMonochromeIcons: Boolean
-        get() = monochromatism == FULL
+    val Settings.doMonochrome: Boolean
+        get() = monochromatism == MONOCHROME
 
     val Settings.monochromatism: Int
         get() = get(KEY, DEFAULT)
@@ -77,10 +66,24 @@ object DoMonochromeIconsSetting {
     private const val KEY = "monochromatism"
 
     const val NONE = 0
-    const val TILE_BACKGROUND = 1
-    const val FULL = 2
+    const val MONOCHROME = 1
 
     const val DEFAULT = NONE
+}
+
+object GreetingSetting {
+    fun Settings.getDefaultGreeting(context: Context): String =
+        getStringOr(KEY) { default(context) }
+
+    inline fun Settings.SettingsEditor.getDefaultGreeting(context: Context): String =
+        settings.getDefaultGreeting(context)
+
+    fun Settings.SettingsEditor.setDefaultGreeting(value: String) = KEY set value
+
+    private const val KEY = "personality:default_greeting"
+
+    private inline fun default(context: Context) =
+        context.getString(R.string.default_greeting)
 }
 
 object DoBlurSetting {
@@ -120,4 +123,41 @@ object DoSuggestionStripSetting {
     private const val KEY = "suggestions:show"
 
     const val DEFAULT = true
+}
+
+object DoFlag {
+    val Settings.doFlag: Boolean
+        get() = get(KEY, DEFAULT)
+
+    var Settings.SettingsEditor.doFlag: Boolean
+        get() = settings[KEY, DEFAULT]
+        set(value) = KEY set value
+
+    private const val KEY = "flag:show"
+
+    const val DEFAULT = false
+}
+
+object FlagHeight {
+    val Settings.flagHeight: Int
+        get() = get(KEY, DEFAULT)
+
+    var Settings.SettingsEditor.flagHeight: Int
+        get() = settings[KEY, DEFAULT]
+        set(value) = KEY set value
+
+    private const val KEY = "flag:height"
+
+    const val DEFAULT = 64
+}
+
+object FlagColors {
+    val Settings.flagColors: IntArray
+        get() = getInts(KEY) ?: intArrayOf()
+
+    var Settings.SettingsEditor.flagColors: IntArray
+        get() = settings.getInts(KEY) ?: intArrayOf()
+        set(value) = setInts(KEY, value)
+
+    private const val KEY = "flag:colors"
 }

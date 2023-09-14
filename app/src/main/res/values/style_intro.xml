@@ -20,7 +20,7 @@
         <item name="android:background">@drawable/button_bg_round</item>
     </style>
 
-    <style name="FatLauncher.Intro.Slash.Permissions.Title" parent="FatLauncher">
+    <style name="FatLauncher.Intro.Title" parent="FatLauncher">
         <item name="android:textSize">32sp</item>
         <item name="android:padding">24dp</item>
         <item name="android:textStyle">bold</item>
@@ -29,11 +29,11 @@
         <item name="android:shadowColor">#33000000</item>
     </style>
 
-    <style name="FatLauncher.Intro.Slash.Permissions.Item.Container" parent="FatLauncher">
+    <style name="FatLauncher.Intro.Item.Container" parent="FatLauncher">
         <item name="android:padding">24dp</item>
     </style>
 
-    <style name="FatLauncher.Intro.Slash.Permissions.Item.Title" parent="FatLauncher">
+    <style name="FatLauncher.Intro.Item.Title" parent="FatLauncher">
         <item name="android:textSize">20sp</item>
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:textStyle">bold</item>
@@ -42,7 +42,7 @@
         <item name="android:shadowColor">#33000000</item>
     </style>
 
-    <style name="FatLauncher.Intro.Slash.Permissions.Item.Explanation" parent="FatLauncher">
+    <style name="FatLauncher.Intro.Item.Explanation" parent="FatLauncher">
         <item name="android:textSize">14sp</item>
         <item name="android:layout_marginBottom">14dp</item>
         <item name="android:shadowRadius">10</item>
@@ -50,7 +50,7 @@
         <item name="android:shadowColor">#33000000</item>
     </style>
 
-    <style name="FatLauncher.Intro.Slash.Permissions.Item.Grant" parent="FatLauncher">
+    <style name="FatLauncher.Intro.Item.Grant" parent="FatLauncher">
         <item name="android:text">@string/grant_permissions</item>
         <item name="android:paddingVertical">8dp</item>
         <item name="android:paddingHorizontal">16dp</item>
@@ -61,7 +61,7 @@
         <item name="android:backgroundTint">#ffffff</item>
     </style>
 
-    <style name="FatLauncher.Intro.Slash.Permissions.Item.Tick" parent="FatLauncher">
+    <style name="FatLauncher.Intro.Item.Tick" parent="FatLauncher">
         <item name="android:layout_width">32dp</item>
         <item name="android:layout_height">32dp</item>
         <item name="android:tint">@color/accent</item>

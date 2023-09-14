@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <FrameLayout
+    android:layout_weight="1">
+    <net.tglt.android.fatlauncher.ui.view.SeeThroughView
+        android:id="@+id/blur_bg"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <net.tglt.android.fatlauncher.util.view.SeeThroughView
-            android:id="@+id/blur_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </FrameLayout>
-    <FrameLayout
+        android:layout_height="match_parent"/>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <androidx.cardview.widget.CardView
+        style="@style/FatLauncher.SearchBar.Card"
         android:id="@+id/search_bar_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <net.tglt.android.fatlauncher.util.view.SeeThroughView
-            android:id="@+id/search_bar_blur_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha=".2"/>
-        <LinearLayout
-            android:id="@+id/in_search_bar_container"
-            android:layout_width="match_parent"
+        android:layout_height="@dimen/search_bar_height"
+        android:layout_gravity="bottom">
+        <TextView
+            style="@style/FatLauncher.SearchBar.Statement"
+            android:id="@+id/statement"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="8dp">
+            android:layout_gravity="center"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/search_bar_height"
+            android:orientation="horizontal">
             <ImageView
                 style="@style/FatLauncher.SearchBar.Icon"
                 android:id="@+id/search_bar_icon"
                 android:layout_width="@dimen/search_bar_height"
                 android:layout_height="@dimen/search_bar_height"
-                android:src="@drawable/ic_search"/>
+                android:src="@drawable/ic_search"
+                tools:ignore="ContentDescription"/>
             <EditText
                 style="@style/FatLauncher.SearchBar.Text"
                 android:id="@+id/search_bar_text"
@@ -49,7 +47,8 @@
                 android:scrollHorizontally="true"
                 android:lines="1"
                 android:inputType="number|text|phone|datetime"
-                android:imeOptions="actionSearch"/>
+                android:imeOptions="actionSearch"
+                android:importantForAutofill="no"/>
         </LinearLayout>
-    </FrameLayout>
-</LinearLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

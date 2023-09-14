@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dash"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        style="@style/FatLauncher.Dash.Top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom"
+        android:layout_gravity="center_horizontal">
+        <TextClock
+            style="@style/FatLauncher.Dash.Date"
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format24Hour="d MMMM, cccc"
+            android:format12Hour="d MMMM, cccc"/>
+        <TextView
+            style="@style/FatLauncher.Dash.Alarm"
+            android:id="@+id/alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_alarm"/>
+    </LinearLayout>
+    <net.tglt.android.fatlauncher.ui.view.FlagView
+        style="@style/FatLauncher.Dash.Flag"
+        android:id="@+id/flag"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        style="@style/FatLauncher.Notification.Recycler"
+        android:id="@+id/notifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+        style="@style/FatLauncher.Dash.Row"
+        android:id="@+id/suggestions_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

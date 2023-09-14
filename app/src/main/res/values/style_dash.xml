@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="FatLauncher.Dash.Card" parent="FatLauncher">
+        <item name="cardCornerRadius">@dimen/large_card_radius</item>
+        <item name="android:layout_margin">@dimen/item_card_margin</item>
+        <item name="cardElevation">@dimen/item_card_elevation</item>
+    </style>
+
+    <style name="FatLauncher.Dash.Flag" parent="FatLauncher">
+        <item name="android:layout_marginVertical">@dimen/item_card_margin</item>
+    </style>
+
+    <style name="FatLauncher.Dash.Row" parent="FatLauncher">
+        <item name="android:layout_marginHorizontal">@dimen/item_card_margin</item>
+    </style>
+
+    <style name="FatLauncher.Dash.Top" parent="FatLauncher">
+        <item name="android:layout_marginTop">22dp</item>
+        <item name="android:layout_marginBottom">22dp</item>
+    </style>
+
+    <style name="FatLauncher.Dash.Date" parent="FatLauncher">
+        <item name="android:textSize">21sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="FatLauncher.Dash.Alarm" parent="FatLauncher">
+        <item name="android:textSize">14sp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginStart">12dp</item>
+    </style>
+</resources>

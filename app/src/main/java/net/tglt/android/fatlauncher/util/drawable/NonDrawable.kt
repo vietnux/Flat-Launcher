@@ -5,10 +5,11 @@ import android.graphics.ColorFilter
 import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
 
-internal class NonDrawable : Drawable() {
+class NonDrawable : Drawable() {
 
     override fun draw(canvas: Canvas) {}
 
+    @Deprecated("Deprecated in Java")
     override fun getOpacity() = PixelFormat.TRANSPARENT
 
     override fun setAlpha(alpha: Int) {}

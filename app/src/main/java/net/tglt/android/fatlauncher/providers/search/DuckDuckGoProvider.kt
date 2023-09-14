@@ -1,14 +1,16 @@
 package net.tglt.android.fatlauncher.providers.search
 
+import io.posidon.android.libduckduckgo.DuckDuckGo
+import net.tglt.android.fatlauncher.providers.search.Searcher
 import net.tglt.android.fatlauncher.BuildConfig
 import net.tglt.android.fatlauncher.data.search.InstantAnswerResult
-import posidon.android.loader.duckduckgo.DuckInstantAnswer
 
 class DuckDuckGoProvider(searcher: Searcher) : AsyncSearchProvider(searcher) {
 
     override fun loadResults(query: SearchQuery) {
         if (query.length >= 3) {
-            DuckInstantAnswer.load(query.toString(), BuildConfig.APPLICATION_ID) {
+            val q = query.toString()
+            DuckDuckGo.instantAnswer(q, BuildConfig.APPLICATION_ID) {
                 update(query, listOf(
                     InstantAnswerResult(
                         query,
@@ -16,7 +18,7 @@ class DuckDuckGoProvider(searcher: Searcher) : AsyncSearchProvider(searcher) {
                         it.description,
                         it.sourceName,
                         it.sourceUrl,
-                        it.searchUrl,
+                        DuckDuckGo.searchURL(q, BuildConfig.APPLICATION_ID),
                         it.infoTable?.filter { a -> a.dataType == "string" }?.map { a -> a.label + ':' to a.value }?.takeIf(List<*>::isNotEmpty)
                     )
                 ))

@@ -4,19 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/card"
-    style="@style/FatLauncher.Drawer.Item.Container">
-    <net.tglt.android.fatlauncher.util.view.BackdropImageView
-        android:id="@+id/background_image"
+    style="@style/FatLauncher.TileArea.Item.Card">
+    <net.tglt.android.fatlauncher.ui.view.HorizontalAspectRatioLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
-    <net.tglt.android.fatlauncher.util.view.SeeThroughView
-        android:id="@+id/blur_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.2"/>
-    <net.tglt.android.fatlauncher.util.view.tile.TileContentView
-        android:id="@+id/tile_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            style="@style/FatLauncher.TileArea.Item.Shortcut.List"
+            android:id="@+id/shortcuts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </net.tglt.android.fatlauncher.ui.view.HorizontalAspectRatioLayout>
 </androidx.cardview.widget.CardView>
